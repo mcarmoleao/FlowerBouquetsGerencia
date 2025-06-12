@@ -23,6 +23,11 @@ const mainNavItems: NavItem[] = [
         href: '/reclamacoes',
         icon: FileIcon,
     },
+    {
+        title: 'Flores',
+        href: '/flores',
+        icon: FileIcon,
+    },
 ];
 
 const footerNavItems: NavItem[] = [

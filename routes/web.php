@@ -22,6 +22,9 @@ Route::get('/Clientes', [App\Http\Controllers\ClienteController::class, 'Index']
 Route::get('/clientes/{id}/edit', [App\Http\Controllers\ClienteController::class, 'edit'])->name('Clientes.Edit');
 
 Route::resource('flores', FlorController::class);
+Route::get('/Flores', [App\Http\Controllers\FlorController::class, 'Index'])->name('Flores.Index');
+Route::get('/flores/{id}/edit', [App\Http\Controllers\FlorController::class, 'edit'])->name('Flores.Edit');
+Route::put('/flores/{flor}', [FlorController::class, 'update'])->name('flores.update');
 
 require __DIR__.'/settings.php';
 require __DIR__.'/auth.php';

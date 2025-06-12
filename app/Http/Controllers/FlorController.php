@@ -39,5 +39,26 @@ class FlorController extends Controller
             'flor' => $flor,
         ]);
     }
+
+    public function update(Request $request, string $id)
+    {
+        $request->validate([
+            'nome' => 'required|string|max:100',
+            'preco' => 'required|numeric|max:100',
+            'stock' => 'nullable|integer|max:100',
+        ]);
+
+        $flor->nome = $request->nome;
+        $flor->preco = $request->preco;
+        $flor->stock = $request->stock;
+        $flor->save();
+
+        return redirect()->route('flores.index');
+    }
+
+    public function destroy(string $id){
+        Flor::destroy($id);
+        return redirect()->route('flores.index')->with('success', 'Flor removida com sucesso!');
+    }
 }
 
