@@ -11,11 +11,11 @@ const breadcrumbs: BreadcrumbItem[] = [
 ];
 
 export default function Flores() {
-    const { flores } = usePage().props;
+    const { flores } = usePage<{ flores: { id: number; nome: string; preco: number; stock: number }[] }>().props;
 
     const { delete: destroy } = useForm();
 
-    const destroyFlor: FormEventHandler = (e, id) => {
+    const destroyFlor = (id: number) => (e: React.FormEvent) => {
         e.preventDefault();
         if (confirm('Tem certeza que deseja excluir esta flor?')) {
             destroy(route('flores.destroy', id), {
@@ -63,9 +63,9 @@ export default function Flores() {
                                     <td className="px-6 py-2 text-gray-600 dark:text-gray-300">{preco} €</td>
                                     <td className="px-6 py-2 text-gray-600 dark:text-gray-300">{stock}</td>
                                     <td className="px-6 py-2">
-                                        <form onSubmit={(e) => destroyFlor(e, id)}>
+                                        <form onSubmit={destroyFlor(id)}>
                                             <Link
-                                                href={route('Flores.Edit', id)} // Ajuste: manter mesma capitalização que 'Clientes.Edit'
+                                                href={route('flores.edit', { flor: id })}
                                                 className="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
                                             >
                                                 Editar

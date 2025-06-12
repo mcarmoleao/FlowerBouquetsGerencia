@@ -13,9 +13,9 @@ return new class extends Migration
             $table->string('titulo');
             $table->text('descricao');
             $table->timestamps();
-            $table->foreignId('cliente_id')->constrained(
-                table: 'clientes', indexName: 'cliente_id'
-                );
+            $table->foreignId('cliente_id')
+                ->constrained(table: 'clientes', indexName: 'cliente_id')
+                ->onDelete('cascade');
         });
     }
 

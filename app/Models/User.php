@@ -46,4 +46,9 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function isFuncionario()
+    {
+        return $this->role === 'funcionario' && str_ends_with($this->email, '@funcionario.pt');
+    }
 }

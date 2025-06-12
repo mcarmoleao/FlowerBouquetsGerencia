@@ -40,7 +40,7 @@ class FlorController extends Controller
         ]);
     }
 
-    public function update(Request $request, string $id)
+    public function update(Request $request, Flor $flor)
     {
         $request->validate([
             'nome' => 'required|string|max:100',

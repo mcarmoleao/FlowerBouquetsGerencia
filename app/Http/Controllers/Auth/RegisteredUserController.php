@@ -43,6 +43,8 @@ class RegisteredUserController extends Controller
             $role = 'admin';
         } elseif (str_ends_with($email, '@funcionario.pt')) {
             $role = 'funcionario';
+        } else {
+            $role = 'user';
         }
 
         $user = User::create([

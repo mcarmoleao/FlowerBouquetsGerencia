@@ -20,7 +20,8 @@ const breadcrumbs: BreadcrumbItem[] = [
 ];
 
 export default function FlorEdit() {
-    const { flor } = usePage().props;
+    const { flor } = usePage<{ flor: { id: number; nome: string; preco: number; stock: number } }>().props;
+    console.log('Flor prop:', flor);
 
     const { data, setData, put, errors } = useForm({
         nome: flor.nome || '',
@@ -30,7 +31,7 @@ export default function FlorEdit() {
 
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
-        put(route('flores.update', { flor: flor.id })); 
+        put(route('flores.update', flor.id));
     };
 
     return (
@@ -88,7 +89,7 @@ export default function FlorEdit() {
                     </div>
 
                     <div>
-                        <Button type="submit">Guardar Alterações</Button>
+                        <Button>Guardar</Button>
                     </div>
                 </form>
             </div>
