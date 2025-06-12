@@ -17,7 +17,7 @@ const breadcrumbs: BreadcrumbItem[] = [
 ];
 
 export default function ClienteEdit() {
-    const { cliente } = usePage().props; // assuming `cliente` is passed via props
+    const { cliente } = usePage().props as any;
 
     const { data, setData, put, errors } = useForm({
         nome: cliente.nome || '',
@@ -27,7 +27,7 @@ export default function ClienteEdit() {
 
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
-        put(route('clientes.update', cliente.id));
+        put(route('clientes.update', { id: cliente.id }));
     };
 
     return (

@@ -11,7 +11,7 @@ const breadcrumbs: BreadcrumbItem[] = [
 ];
 
 export default function Flores() {
-    const { flores } = usePage<{ flores: { id: number; nome: string; preco: number; stock: number }[] }>().props;
+    const { flores, auth } = usePage().props as any;
 
     const { delete: destroy } = useForm();
 
@@ -33,12 +33,15 @@ export default function Flores() {
 
             <div className="flex h-full flex-1 flex-col gap-4 rounded-xl p-4 overflow-x-auto">
                 <div>
-                    <Link
-                        href={route('flores.create')}
-                        className="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-                    >
-                        Adicionar Flor
-                    </Link>
+                    {/* Só mostra o botão de adicionar se for funcionario */}
+                    {auth?.user?.role === 'funcionario' && (
+                        <Link
+                            href={route('flores.create')}
+                            className="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                        >
+                            Adicionar Flor
+                        </Link>
+                    )}
                 </div>
 
                 <div className="overflow-x-auto">
@@ -53,7 +56,7 @@ export default function Flores() {
                             </tr>
                         </thead>
                         <tbody>
-                            {flores.map(({ id, nome, preco, stock }) => (
+                            {flores.map(({ id, nome, preco, stock }: any) => (
                                 <tr
                                     key={id}
                                     className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700"
@@ -63,20 +66,25 @@ export default function Flores() {
                                     <td className="px-6 py-2 text-gray-600 dark:text-gray-300">{preco} €</td>
                                     <td className="px-6 py-2 text-gray-600 dark:text-gray-300">{stock}</td>
                                     <td className="px-6 py-2">
-                                        <form onSubmit={destroyFlor(id)}>
-                                            <Link
-                                                href={route('flores.edit', { flor: id })}
-                                                className="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-                                            >
-                                                Editar
-                                            </Link>
-                                            <button
-                                                type="submit"
-                                                className="ml-2 px-3 py-2 text-xs font-medium text-white bg-red-700 rounded-lg hover:bg-red-800"
-                                            >
-                                                Apagar
-                                            </button>
-                                        </form>
+                                        {/* Só mostra o botão de editar e remover se for funcionario */}
+                                        {auth?.user?.role === 'funcionario' && (
+                                            <>
+                                                <Link
+                                                    href={route('flores.edit', { flor: id })}
+                                                    className="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                                                >
+                                                    Editar
+                                                </Link>
+                                                <form onSubmit={destroyFlor(id)} style={{ display: 'inline' }}>
+                                                    <button
+                                                        type="submit"
+                                                        className="ml-2 px-3 py-2 text-xs font-medium text-white bg-red-700 rounded-lg hover:bg-red-800"
+                                                    >
+                                                        Apagar
+                                                    </button>
+                                                </form>
+                                            </>
+                                        )}
                                     </td>
                                 </tr>
                             ))}
